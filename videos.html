@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فيديوهات المطعم | مطعم الأمين</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #FFD700;
+            --black: #000000;
+            --white: #FFFFFF;
+            --bg: #FFF9E6;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .videos-header {
+            background: linear-gradient(135deg, var(--gold), #FFC000);
+            color: var(--black);
+            text-align: center;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .videos-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: repeating-linear-gradient(45deg, var(--black), var(--black) 10px, transparent 10px, transparent 20px);
+        }
+        
+        .videos-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        
+        /* تصاميم معرض الفيديوهات */
+        .video-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+        
+        .video-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+            background: var(--black);
+        }
+        
+        .video-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+        }
+        
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 177.78%; /* نسبة 9:16 للشورتات */
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .video-caption {
+            padding: 15px;
+            background: var(--white);
+            text-align: center;
+            border-top: 3px solid var(--gold);
+        }
+        
+        .video-caption h3 {
+            margin: 0;
+            color: var(--black);
+            font-size: 1.2em;
+        }
+        
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--gold);
+            font-size: 50px;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .video-item:hover .play-icon {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        /* القائمة الجانبية */
+        .floating-nav {
+            position: fixed;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--gold);
+            color: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            border: 2px solid var(--white);
+        }
+        
+        .nav-btn:hover {
+            transform: scale(1.1);
+            background-color: var(--black);
+            color: var(--gold);
+        }
+        
+        .nav-btn.active {
+            background-color: var(--black);
+            color: var(--gold);
+        }
+        
+        .nav-tooltip {
+            position: absolute;
+            right: 60px;
+            background-color: var(--black);
+            color: var(--white);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        .nav-btn:hover .nav-tooltip {
+            opacity: 1;
+        }
+        
+        /* تصميم للجوال */
+        @media (max-width: 768px) {
+            .video-gallery {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .floating-nav {
+                right: 5px;
+            }
+            
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- القائمة الجانبية -->
+    <div class="floating-nav">
+        <a href="index.html" class="nav-btn" title="الصفحة الرئيسية">
+            <i class="fas fa-home"></i>
+            <span class="nav-tooltip">الصفحة الرئيسية</span>
+        </a>
+        <a href="menu.html" class="nav-btn" title="قائمة الطعام">
+            <i class="fas fa-utensils"></i>
+            <span class="nav-tooltip">قائمة الطعام</span>
+        </a>
+        <a href="gallery.html" class="nav-btn" title="معرض الصور">
+            <i class="fas fa-images"></i>
+            <span class="nav-tooltip">معرض الصور</span>
+        </a>
+        <a href="videos.html" class="nav-btn active" title="فيديوهات المطعم">
+            <i class="fas fa-video"></i>
+            <span class="nav-tooltip">فيديوهات المطعم</span>
+        </a>
+    </div>
+
+    <div class="videos-header">
+        <h1>فيديوهات المطعم</h1>
+        <p>لحظات حية من أجواء مطعم الأمين</p>
+    </div>
+    
+    <div class="videos-container">
+        <div class="video-gallery">
+            <!-- شورت 1 -->
+            <div class="video-item">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/tJKgBxD27LU" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen></iframe>
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="video-caption">
+                    <h3>شورت المطعم الأول</h3>
+                </div>
+            </div>
+            
+            <!-- شورت 2 -->
+            <div class="video-item">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/64RrG0US38s" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen></iframe>
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="video-caption">
+                    <h3>شورت المطعم الثاني</h3>
+                </div>
+            </div>
+            
+            <!-- شورت 3 -->
+            <div class="video-item">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/kejKwumRy4Q" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen></iframe>
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="video-caption">
+                    <h3>شورت المطعم الثالث</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // يمكنك إضافة أي تأثيرات جافاسكريبت هنا لاحقاً
+    </script>
+</body>
+</html>

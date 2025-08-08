@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معرض الصور | مطعم الأمين</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #FFD700;
+            --black: #000000;
+            --white: #FFFFFF;
+            --bg: #FFF9E6;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .gallery-header {
+            background: linear-gradient(135deg, var(--gold), #FFC000);
+            color: var(--black);
+            text-align: center;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .gallery-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: repeating-linear-gradient(45deg, var(--black), var(--black) 10px, transparent 10px, transparent 20px);
+        }
+        
+        .gallery-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        
+        /* تصاميم معرض الصور */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            aspect-ratio: 1/1;
+            border: 3px solid var(--white);
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: var(--white);
+            padding: 20px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover .image-caption {
+            opacity: 1;
+        }
+        
+        /* القائمة الجانبية */
+        .floating-nav {
+            position: fixed;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--gold);
+            color: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            border: 2px solid var(--white);
+        }
+        
+        .nav-btn:hover {
+            transform: scale(1.1);
+            background-color: var(--black);
+            color: var(--gold);
+        }
+        
+        .nav-btn.active {
+            background-color: var(--black);
+            color: var(--gold);
+        }
+        
+        .nav-tooltip {
+            position: absolute;
+            right: 60px;
+            background-color: var(--black);
+            color: var(--white);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        .nav-btn:hover .nav-tooltip {
+            opacity: 1;
+        }
+        
+        /* تصميم للجوال */
+        @media (max-width: 768px) {
+            .photo-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+            
+            .floating-nav {
+                right: 5px;
+            }
+            
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- القائمة الجانبية -->
+    <div class="floating-nav">
+        <a href="index.html" class="nav-btn" title="الصفحة الرئيسية">
+            <i class="fas fa-home"></i>
+            <span class="nav-tooltip">الصفحة الرئيسية</span>
+        </a>
+        <a href="menu.html" class="nav-btn" title="قائمة الطعام">
+            <i class="fas fa-utensils"></i>
+            <span class="nav-tooltip">قائمة الطعام</span>
+        </a>
+        <a href="gallery.html" class="nav-btn active" title="معرض الصور">
+            <i class="fas fa-images"></i>
+            <span class="nav-tooltip">معرض الصور</span>
+        </a>
+        <a href="videos.html" class="nav-btn" title="فيديوهات المطعم">
+            <i class="fas fa-video"></i>
+            <span class="nav-tooltip">فيديوهات المطعم</span>
+        </a>
+    </div>
+
+    <div class="gallery-header">
+        <h1>معرض الصور</h1>
+        <p>لحظات تذوق من مطعم الأمين</p>
+    </div>
+    
+    <div class="gallery-container">
+        <div class="photo-gallery">
+            <!-- صورة 1 -->
+            <div class="gallery-item">
+                <img src="images/gallery1.jpg" alt="طبق حمص الأمين">
+                <div class="image-caption">عالذوووق</div>
+            </div>
+            
+            <!-- صورة 2 -->
+            <div class="gallery-item">
+                <img src="images/gallery2.jpg" alt="فول بالزيت والليمون">
+                <div class="image-caption">عالأصوول </div>
+            </div>
+            
+            <!-- صورة 3 -->
+            <div class="gallery-item">
+                <img src="images/gallery3.jpg" alt="فتة باللحم">
+                <div class="image-caption">للترويقة عنوان</div>
+            </div>
+            
+            <!-- صورة 4 -->
+            <div class="gallery-item">
+                <img src="images/gallery4.jpg" alt="ماليزية طازجة">
+                <div class="image-caption">أطيب لقمة</div>
+            </div>
+            
+            <!-- صورة 5 -->
+            <div class="gallery-item">
+                <img src="images/gallery5.jpg" alt="طبق حمص ناعم">
+                <div class="image-caption">أطيب صحن</div>
+            </div>
+            
+            <!-- صورة 6 -->
+            <div class="gallery-item">
+                <img src="images/gallery6.jpg" alt="حمص بالحمة">
+                <div class="image-caption">اطيب سرفيس</div>
+            </div>
+        </div>
+    </div>
+
+<div class="gallery-item">
+                <img src="images/gallery7.jpg" alt="حمص بالحمة">
+                <div class="image-caption">فتة عالأصول</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // يمكنك إضافة أي تأثيرات جافاسكريبت هنا لاحقاً
+    </script>
+</body>
+</html>
